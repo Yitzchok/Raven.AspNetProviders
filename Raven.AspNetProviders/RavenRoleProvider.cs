@@ -189,7 +189,7 @@ namespace Raven.AspNetProviders
             using (var session = _documentStore.OpenSession())
             {
                 var users = session.Query<User, Users_ByApplicationNameAndUsername>()
-                    .Where(x => x.ApplicationName == ApplicationName && x.Username.In(usernames));
+                    .Where(x => x.ApplicationName == ApplicationName && x.Username.In(usernames)).ToList();
 
                 foreach (var user in users)
                 {
