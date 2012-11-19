@@ -159,9 +159,7 @@ namespace Raven.AspNetProviders
             using (var session = _documentStore.OpenSession())
             {
                 return session.Query<User, Users_ByApplicationNameAndUsername>()
-                    .Where(x => x.ApplicationName == ApplicationName && x.Username == username)
-                    .SelectMany(x => x.Roles)
-                    .ToArray();
+                    .Single(x => x.ApplicationName == ApplicationName && x.Username == username).Roles.ToArray();
             }
         }
 
