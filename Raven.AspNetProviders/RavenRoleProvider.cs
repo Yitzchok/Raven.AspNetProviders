@@ -79,8 +79,11 @@ namespace Raven.AspNetProviders
             using (var session = _documentStore.OpenSession())
             {
                 var app = session.Query<Application>().SingleOrDefault(x => x.Name == ApplicationName);
-                if (app != null && !app.Roles.Contains(roleName))
+                if (app != null)
                 {
+                    if (app.Roles.Contains(roleName))
+                        throw new ProviderException("Role already exists.");
+
                     app.Roles.Add(roleName);
                 }
                 else
@@ -88,7 +91,7 @@ namespace Raven.AspNetProviders
                     var newApp = new Application
                     {
                         Name = ApplicationName,
-                        Roles = new List<string>{ roleName }
+                        Roles = new List<string> { roleName }
                     };
                     session.Store(newApp);
                 }
